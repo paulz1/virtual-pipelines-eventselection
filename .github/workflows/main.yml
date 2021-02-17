@@ -7,7 +7,11 @@ jobs:
     container: rootproject/root-conda:${{ matrix.version }}
     strategy:
       matrix:
-        version: [6.18.04, latest]
+        version: [6.18.04]
+        allow_failure: [false]
+        include:
+          - version: latest
+            allow_failure: true
 
     steps:
       - name: checkout repository
