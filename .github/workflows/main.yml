@@ -96,7 +96,7 @@ jobs:
         run: python tests/test_cutflow_ggH.py
 
       - name: test plot
-        run: python tests/test_plot_ggH.py
+        run: pytest tests/test_plot_ggH.py
 
       - name: test bins
         run: python tests/test_bins.py

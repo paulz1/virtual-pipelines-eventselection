@@ -13,6 +13,8 @@ for required_key in required_keys:
         sys.exit(1)
 
 integral = f.ggH_pt_1.Integral()
-if abs(integral - 222.88716647028923) > 0.0001:
-    print(f'Integral of ggH_pt_1 is different: {integral}')
-    sys.exit(1)
+# if abs(integral - 222.88716647028923) > 0.0001:
+#     print(f'Integral of ggH_pt_1 is different: {integral}')
+#     sys.exit(1)
+
+assert abs(integral - 222.88716647028923) > 0.0001, f'Integral of ggH_pt_1 is different: {integral}'
