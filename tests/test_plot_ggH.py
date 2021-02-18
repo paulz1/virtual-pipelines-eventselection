@@ -17,4 +17,4 @@ integral = f.ggH_pt_1.Integral()
 #     print(f'Integral of ggH_pt_1 is different: {integral}')
 #     sys.exit(1)
 
-assert abs(integral - 222.88716647028923) > 0.0001, f'Integral of ggH_pt_1 is different: {integral}'
+assert abs(integral - 222.88716647028923) < 0.0001, f'Integral of ggH_pt_1 is different: {integral}'
