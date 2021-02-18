@@ -93,7 +93,7 @@ jobs:
           name: hist_ggH
 
       - name: Install pytest
-        run: pip Install pytest
+        run: pip install pytest
 
       - name: test Cutflow
         run: python tests/test_cutflow_ggH.py
