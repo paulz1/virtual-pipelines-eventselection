@@ -96,7 +96,7 @@ jobs:
           name: hist_ggH
 
       - name: test Cutflow
-        run: python test/test_cutflow_ggH.py
+        run: python tests/test_cutflow_ggH.py
 
       - name: test plot
-        run: python test/test_plot_ggH.py
+        run: python tests/test_plot_ggH.py
