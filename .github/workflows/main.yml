@@ -87,7 +87,7 @@ jobs:
 
       - uses: actions/download-artifact@v2
         with:
-          name: skim_gHH
+          name: skim_ggH
       - uses: actions/download-artifact@v2
         with:
           name: hist_ggH
