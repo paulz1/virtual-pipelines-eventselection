@@ -1,0 +1,14 @@
+name: example
+on:
+  push :
+    branches :
+      - master
+      - feature/add-actions
+
+jobs:
+
+  greeting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say Hello
+        run: echo "Hello, world"
