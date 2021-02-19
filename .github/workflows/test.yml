@@ -19,3 +19,8 @@ jobs:
 
       - name: build doxygen doc
         run: doxygen docs/Doxyfile
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: docs
+          path: ./docs
