@@ -1,0 +1,112 @@
+name: example
+on:
+  push :
+    branches :
+      - master
+
+
+jobs:
+
+  build_skim:
+    runs-on: ubuntu-latest
+    container: rootproject/root-conda:${{ matrix.version }}
+    strategy:
+      matrix:
+        version: [6.18.04]
+        allow_failure: [false]
+        # include:
+        #   - version: latest
+        #     allow_failure: true
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v2
+
+      - name: build
+        run: |
+          COMPILER=$(root-config --cxx)
+          FLAGS=$(root-config --cflags --libs)
+          $COMPILER -g -O3 -Wall -Wextra -Wpedantic -o skim skim.cxx $FLAGS
+
+      - name: Save artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: skim${{ matrix.version }}
+          path: skim
+
+  skim:
+   needs: build_skim
+   runs-on: ubuntu-latest
+   container: rootproject/root-conda:6.18.04
+   steps:
+     - name: checkout repository
+       uses: actions/checkout@v2
+
+     - uses: actions/download-artifact@v2
+       with:
+         name: skim6.18.04
+
+     # - name: access control
+     #   run: printf ${{ secrets.USER_PASS }} | base64 -d | kinit ${{ secrets.USER_NAME }}@CERN.CH
+
+     - name: skim
+       run: |
+         chmod +x ./skim
+         ./skim ${{ secrets.CERN_DATA_PUBLIC_URL }} skim_ggH.root 19.6 11467.0 0.1 > skim_ggH.log
+
+     - uses: actions/upload-artifact@v2
+       with:
+         name: skim_ggH
+         path: |
+           skim_ggH.root
+           skim_ggH.log
+
+  plot_histograms:
+    needs: skim
+    runs-on: ubuntu-latest
+    container: rootproject/root-conda:6.18.04
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: skim_ggH
+
+      - name: plot
+        run: python histograms.py skim_ggH.root ggH hist_ggH.root
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: hist_ggH
+          path: hist_ggH.root
+
+  test_gHH:
+    needs: [skim, plot_histograms]
+    runs-on: ubuntu-latest
+    container: rootproject/root-conda:6.18.04
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: skim_ggH
+      - uses: actions/download-artifact@v2
+        with:
+          name: hist_ggH
+
+      - name: Install pytest
+        run: pip install pytest
+
+      # - name: test Cutflow
+      #   run: python tests/test_cutflow_ggH.py
+      #
+      # - name: test plot
+      #   run: pytest tests/test_plot_ggH.py
+      #
+      # - name: test bins
+      #   run: python tests/test_bins.py
+
+      - name: Run tests
+        run: pytest tests
