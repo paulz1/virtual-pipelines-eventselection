@@ -11,4 +11,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Say Hello
-        run: echo ${{ guthub.ref }}
+        run: echo ${{ github.ref }}
