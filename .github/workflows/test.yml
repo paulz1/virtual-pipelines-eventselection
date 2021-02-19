@@ -9,6 +9,13 @@ jobs:
 
   greeting:
     runs-on: ubuntu-latest
+    container: gitlab-registry.cern.ch/cholm/docker-ubuntu-doxygen:latest
     steps:
       - name: Say Hello
         run: echo ${{ github.ref }}
+
+      - name: checkout repository
+        uses: actions/checkout@v2
+
+      - name: build doxygen doc
+        run: doxygen docs/Doxygen
