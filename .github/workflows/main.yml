@@ -96,11 +96,17 @@ jobs:
         with:
           name: hist_ggH
 
-      - name: test Cutflow
-        run: python tests/test_cutflow_ggH.py
+      - name: Install pytest
+        run: pip install pytest
 
-      - name: test plot
-        run: pytest tests/test_plot_ggH.py
+      # - name: test Cutflow
+      #   run: python tests/test_cutflow_ggH.py
+      #
+      # - name: test plot
+      #   run: pytest tests/test_plot_ggH.py
+      #
+      # - name: test bins
+      #   run: python tests/test_bins.py
 
-      - name: test bins
-        run: python tests/test_bins.py
+      - name: Run tests
+        run: pytest tests
