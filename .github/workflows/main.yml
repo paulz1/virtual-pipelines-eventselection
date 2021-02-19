@@ -3,7 +3,7 @@ on:
   push :
     branches :
       - master
-
+      - feature/add-actions
 
 jobs:
 
